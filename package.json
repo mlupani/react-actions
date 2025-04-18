@@ -6,7 +6,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "lint": "eslint ."
   },
   "dependencies": {
     "query-string": "^7.1.1",
@@ -23,6 +24,9 @@
     "@types/react-dom": "^18.0.0",
     "@vitejs/plugin-react": "^1.3.0",
     "babel-jest": "^28.1.0",
+    "eslint": "^9.25.0",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^16.0.0",
     "jest": "^28.1.0",
     "jest-environment-jsdom": "^28.1.0",
     "vite": "^2.9.7"
