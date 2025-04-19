@@ -1,9 +1,9 @@
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 
 import { AuthContext } from '../auth';
 
-
+/* eslint react/prop-types: 0 */
 export const PrivateRoute = ({ children }) => {
 
     const { logged } = useContext( AuthContext );

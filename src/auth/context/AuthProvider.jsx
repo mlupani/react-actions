@@ -1,3 +1,4 @@
+import React from 'react';
 import { useReducer } from 'react';
 import { AuthContext } from './AuthContext';
 import { authReducer } from './authReducer';
@@ -7,6 +8,8 @@ import { types } from '../types/types';
 // const initialState = {
 //     logged: false,
 // }
+
+/* eslint react/prop-types: 0 */
 
 const init = () => {
   const user = JSON.parse( localStorage.getItem('user') );

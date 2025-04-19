@@ -1,7 +1,8 @@
-
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { HeroCard } from './';
 import { getHeroesByPublisher } from '../helpers';
+
+/* eslint react/prop-types: 0 */
 
 export const HeroList = ({ publisher }) => {
 

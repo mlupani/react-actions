@@ -8,10 +8,34 @@ on:
 
 jobs:
 
-  build:
-
+  avoid-redundancy:
     runs-on: ubuntu-latest
+    steps:
+    - name: Cancel previus Redundant builds (para no hacer builds en paralelo)
+      uses: styfle/cancel-workflow-action@0.11.0
+      with:
+        access_token: ${{ github.token }}
 
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+            fetch-depth: 0
+    - name: Setup node
+      uses: actions/setup-node@v4
+      with:
+            node-version: 18
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Lint
+      run: npm run lint
+
+
+  build:
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -26,22 +50,69 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
-    # - name: Lint
-    #   run: npm run lint
-
     - name: build
       run: npm run build
 
+    - uses: actions/upload-artifact@v4
+      with:
+        name: dist
+        path: dist
+
+
+  test:
+    runs-on: ubuntu-latest
+    needs: [lint, build]
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with: 
+        fetch-depth: 0
+    - name: Setup node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Download artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: dist
+        path: dist
+
     - name: Run Unitary tests
       run: npm run test
-
+    
+  e2e:
+    runs-on: ubuntu-latest
+    needs: [lint, build]
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with: 
+        fetch-depth: 0
+    - name: Setup node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+    - name: Install dependencies
+      run: npm ci
+    - name: Download artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: dist
+        path: dist
     - name: Run E2E tests
       uses: cypress-io/github-action@v6
       with:
-        command: npm run test:e2e
-        start: npm run start:test
-        wait-on: 'http://localhost:3000'
+          command: npm run test:e2e
+          start: npm run start:test
+          wait-on: 'http://localhost:3000'
+  
+      # - name: Build
+      #   if: github.event_name != 'pull_request'
+      #   run: npm run build
 
-    # - name: Build
-    #   run: npm run build
+
 

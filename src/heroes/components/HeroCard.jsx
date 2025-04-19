@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 const CharactersByHero = ({ alter_ego, characters}) => {
@@ -8,11 +9,11 @@ const CharactersByHero = ({ alter_ego, characters}) => {
      : <p>{ characters }</p>;
 }
 
+/* eslint react/prop-types: 0 */
 
 export const HeroCard = ({ 
     id,
     superhero,
-    publisher,
     alter_ego,
     first_appearance,
     characters ,
