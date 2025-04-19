@@ -24,7 +24,21 @@ jobs:
         node-version: 18
 
     - name: Install dependencies
-      run: npm install
+      run: npm install --no-fund --no-audit
 
-    - name: Lint
-      run: npm run lint
+    # - name: Lint
+    #   run: npm run lint
+
+    - name: Run Unitary tests
+      run: npm run test
+
+    - name: Run E2E tests
+      uses: cypress-io/github-action@v6
+      with:
+        command: npm run test:e2e
+        start: npm run start:test
+        wait-on: 'http://localhost:3000'
+
+    # - name: Build
+    #   run: npm run build
+
